@@ -17,10 +17,12 @@ module.exports = ({ env }) => {
             password : config.password
           },
           options: {
-            ssl: false,
+            // ssl: true,
+            
+            ssl: env.bool('DATABASE_SSL', false),
           },
         },
-        
+
       },
     };
   }
