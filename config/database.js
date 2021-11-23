@@ -1,7 +1,7 @@
 const parse = require("pg-connection-string").parse;
 
 module.exports = ({ env }) => {
-  if (env("NODE_ENV")   === "production") {
+  if (env("NODE_ENV") === "production") {
     const config = parse(process.env.DATABASE_URL);
     return {
       defaultConnection: "default",
@@ -15,10 +15,13 @@ module.exports = ({ env }) => {
             database: config.database,
             username: config.user,
             password: config.password,
+            //add this line
+            ssl: {
+              rejectUnauthorized: env.bool("DATABASE_SSL_SELF", false), // For self-signed certificates
+            },
           },
           options: {
-            ssl: false,
-            // ssl: env.bool("DATABASE_SSL", false),
+            ssl: env.bool("DATABASE_SSL", false),
           },
         },
       },
